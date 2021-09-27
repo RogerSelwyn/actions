@@ -1,0 +1,23 @@
+name: Prepare release notes
+inputs:
+  github_token:
+    description: 'GitHub token or PAT token'
+    required: true
+    default: ${{ github.token }}
+runs:
+  using: composite
+  steps:
+    - name: Enable version 3.9 of Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+
+    - name: Install requirements
+      shell: bash
+      run: |
+        python3 -m pip install setuptools wheel
+        python3 -m pip install -r ${{ github.workspace }}/requirements_release.txt
+
+    - name: Update release notes
+      shell: bash
+      run: python3 ${{ github.action_path }}/helpers/generate_releasenotes.py --token ${{ inputs.GITHUB_TOKEN }} --release yes --tag ${{ github.ref }} --repository ${{ github.repository }} --creator ${{ github.actor }}
