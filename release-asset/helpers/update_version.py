@@ -5,8 +5,8 @@ import sys
 
 COMPONENT = sys.argv[4]
 
-version = str(sys.argv[2]).replace("refs/tags/", "")
-version = version[1 : len(version)]
+version = str(sys.argv[2])
+version = version[version.find("tags/")+5:]
 
 print(f"Version to update to {version}")
 
