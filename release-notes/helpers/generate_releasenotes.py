@@ -13,9 +13,11 @@ BODY = """[![Downloads for this release](https://img.shields.io/github/downloads
 """
 
 CHANGES = """
+### Breaking Changes
 ### Enhancements
 ### Fixes
 ### Maintenance
+### Documentation
 
 {repo_changes}
 
