@@ -3,6 +3,7 @@ import json
 import os
 import sys
 
+print(sys.argv)
 COMPONENT = sys.argv[4]
 
 version = str(sys.argv[2])
