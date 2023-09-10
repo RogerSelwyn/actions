@@ -16,7 +16,7 @@ BODY = """[![Downloads for this release](https://img.shields.io/github/downloads
 CHANGES_BREAKING = "### 💥 Breaking Changes"
 CHANGES_ENHANCEMENTS = "### ✨ Enhancements"
 CHANGES_FIXES = "### 🐛 Fixes"
-CHANGES_MAINTENANCE = "### 🔨Maintenance"
+CHANGES_MAINTENANCE = "### 🔨 Maintenance"
 CHANGES_DOCUMENTATION = "### 📚 Documentation"
 CHANGES_OTHER = "### Other"
 
