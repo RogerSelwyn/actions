@@ -95,8 +95,8 @@ def _get_repo_commits(github, skip=True):
                 repo_changes_maintenance += _add_line("maint:", commit, msg)
             elif msg.startswith("doc:"):
                 repo_changes_documentation += _add_line("doc:", commit, msg)
-            else:
-                repo_changes_other += _add_line("", commit, msg)
+            elif other := _add_line("", commit, msg):
+                repo_changes_other += other
 
         changes += _process_chunks(CHANGES_BREAKING, repo_changes_breaking)
         changes += _process_chunks(CHANGES_ENHANCEMENTS, repo_changes_enhancement)
