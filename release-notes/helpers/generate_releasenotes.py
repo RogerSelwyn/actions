@@ -111,7 +111,9 @@ def _get_repo_commits(github, skip=True):
 
 # Update release notes:
 UPDATERELEASE = str(sys.argv[4])
+print(REPOSITORY)
 REPO = GITHUB.get_repo(REPOSITORY)
+print(REPO)
 if UPDATERELEASE == "yes":
     VERSION = str(sys.argv[6]).replace("refs/tags/", "")
     print(VERSION)
