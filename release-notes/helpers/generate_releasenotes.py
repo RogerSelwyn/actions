@@ -24,7 +24,6 @@ CHANGE = "- [{line}]({link}) - @{author}\n"
 NOCHANGE = "_No changes in this release._"
 
 GITHUB = Github(sys.argv[2])
-print(f"Github:- {GITHUB}")
 
 
 def _new_commits(repo, sha):
@@ -112,23 +111,17 @@ def _get_repo_commits(github, skip=True):
 
 # Update release notes:
 UPDATERELEASE = str(sys.argv[4])
-print(f"Repository:- {REPOSITORY}")
 REPO = GITHUB.get_repo(REPOSITORY)
-print(f"Repo:- {REPO}")
 if UPDATERELEASE == "yes":
     VERSION = str(sys.argv[6]).replace("refs/tags/", "")
-    print(f"Version:- {VERSION}")
     RELEASE = REPO.get_release(VERSION)
-    print(f"Release:- {RELEASE}")
-    BODY = BODY.format(
-        version=VERSION,
-        changes=_get_repo_commits(GITHUB),
-        repository=REPOSITORY,
-    )
-    print(f"Body:- {BODY}")
     RELEASE.update_release(
         name=VERSION,
-        message=BODY,
+        message=BODY.format(
+            version=VERSION,
+            changes=_get_repo_commits(GITHUB),
+            repository=REPOSITORY,
+        ),
         prerelease=True,
     )
 else:
