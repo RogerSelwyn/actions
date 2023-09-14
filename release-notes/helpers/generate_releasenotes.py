@@ -24,6 +24,7 @@ CHANGE = "- [{line}]({link}) - @{author}\n"
 NOCHANGE = "_No changes in this release._"
 
 GITHUB = Github(sys.argv[2])
+print(f"Github:- {GITHUB}")
 
 
 def _new_commits(repo, sha):
