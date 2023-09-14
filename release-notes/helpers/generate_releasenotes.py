@@ -114,7 +114,9 @@ UPDATERELEASE = str(sys.argv[4])
 REPO = GITHUB.get_repo(REPOSITORY)
 if UPDATERELEASE == "yes":
     VERSION = str(sys.argv[6]).replace("refs/tags/", "")
+    print(VERSION)
     RELEASE = REPO.get_release(VERSION)
+    print(RELEASE)
     BODY = BODY.format(
         version=VERSION,
         changes=_get_repo_commits(GITHUB),
