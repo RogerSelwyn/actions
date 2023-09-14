@@ -111,20 +111,20 @@ def _get_repo_commits(github, skip=True):
 
 # Update release notes:
 UPDATERELEASE = str(sys.argv[4])
-print(REPOSITORY)
+print(f"Repository:- {REPOSITORY}")
 REPO = GITHUB.get_repo(REPOSITORY)
-print(REPO)
+print("Repo:- {REPO}")
 if UPDATERELEASE == "yes":
     VERSION = str(sys.argv[6]).replace("refs/tags/", "")
-    print(VERSION)
+    print("Version:- {VERSION}")
     RELEASE = REPO.get_release(VERSION)
-    print(RELEASE)
+    print("Release:- {RELEASE}")
     BODY = BODY.format(
         version=VERSION,
         changes=_get_repo_commits(GITHUB),
         repository=REPOSITORY,
     )
-    print(BODY)
+    print("Body:- {BODY}")
     RELEASE.update_release(
         name=VERSION,
         message=BODY,
