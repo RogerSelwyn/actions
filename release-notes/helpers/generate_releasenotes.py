@@ -18,6 +18,7 @@ CHANGES_ENHANCEMENTS = "### ✨ Enhancements"
 CHANGES_FIXES = "### 🐛 Fixes"
 CHANGES_MAINTENANCE = "### 🔨 Maintenance"
 CHANGES_DOCUMENTATION = "### 📚 Documentation"
+CHANGES_DEPENDENCIES = "### ⬆️ Depenencies"
 CHANGES_OTHER = "### Other"
 
 CHANGE = "- [{line}]({link}) - @{author}\n"
@@ -79,6 +80,7 @@ def _get_repo_commits(github, skip=True):
     repo_changes_enhancement = ""
     repo_changes_fixes = ""
     repo_changes_maintenance = ""
+    repo_changes_dependencies = ""
     repo_changes_documentation = ""
     repo_changes_other = ""
     repo = github.get_repo(REPOSITORY)
@@ -93,6 +95,8 @@ def _get_repo_commits(github, skip=True):
                 repo_changes_fixes += _add_line("fix:", commit, msg)
             elif msg.startswith("maint:"):
                 repo_changes_maintenance += _add_line("maint:", commit, msg)
+            elif msg.startswith("dep:"):
+                repo_changes_dependencies += _add_line("dep:", commit, msg)
             elif msg.startswith("doc:"):
                 repo_changes_documentation += _add_line("doc:", commit, msg)
             elif other := _add_line("", commit, msg):
@@ -102,6 +106,7 @@ def _get_repo_commits(github, skip=True):
         changes += _process_chunks(CHANGES_ENHANCEMENTS, repo_changes_enhancement)
         changes += _process_chunks(CHANGES_FIXES, repo_changes_fixes)
         changes += _process_chunks(CHANGES_MAINTENANCE, repo_changes_maintenance)
+        changes += _process_chunks(CHANGES_DEPENDENCIES, repo_changes_dependencies)
         changes += _process_chunks(CHANGES_DOCUMENTATION, repo_changes_documentation)
         changes += _process_chunks(CHANGES_OTHER, repo_changes_other)
     else:
