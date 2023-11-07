@@ -18,7 +18,7 @@ CHANGES_ENHANCEMENTS = "### ✨ Enhancements"
 CHANGES_FIXES = "### 🐛 Fixes"
 CHANGES_MAINTENANCE = "### 🔨 Maintenance"
 CHANGES_DOCUMENTATION = "### 📚 Documentation"
-CHANGES_DEPENDENCIES = "### ⬆️ Depenencies"
+CHANGES_DEPENDENCIES = "### ⬆️ Dependencies"
 CHANGES_RELEASE = "### 🔖 Release" 
 CHANGES_OTHER = "### Other"
 
