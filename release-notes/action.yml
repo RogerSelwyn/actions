@@ -8,9 +8,9 @@ runs:
   using: composite
   steps:
     - name: Enable version 3.11 of Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5.1.0
       with:
-        python-version: 3.11
+        python-version: 3.12
 
     - name: Install requirements
       shell: bash
