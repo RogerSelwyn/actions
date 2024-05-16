@@ -5,7 +5,7 @@ inputs:
     required: true
     default: ${{ github.token }}
   component:
-    description: 'Integration Component being release'
+    description: 'Integration Component being released'
     required: true
 runs:
   using: composite
