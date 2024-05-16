@@ -1,15 +1,6 @@
-name: "Lint"
-
-on:
-  push:
-  pull_request:
-  schedule:
-    - cron: "0 0 * * *"
-
-jobs:
-  ruff:
-    name: "Ruff"
-    runs-on: "ubuntu-latest"
+name: Lint
+runs:
+  using: composite
     steps:
         - name: "Checkout the repository"
           uses: "actions/checkout@v4.1.4"
