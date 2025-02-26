@@ -22,7 +22,11 @@ runs:
       shell: bash
       run: python3 ${{ github.action_path }}/helpers/generate_releasenotes.py --token ${{ inputs.GITHUB_TOKEN }} --release yes --tag ${{ github.ref }} --repository ${{ github.repository }} --creator ${{ github.actor }}
 
-
+    - name: Pull any other changes
+      shell: bash
+      run: |
+        remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+        git pull "$remote_repo" main
     - name: Check for changes
       shell: bash
       run: git status
