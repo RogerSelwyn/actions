@@ -28,13 +28,17 @@ runs:
     - name: Update manifest.json
       shell: bash
       run: python3 ${{ github.action_path }}/helpers/update_version.py --tag ${{ github.ref }} --component ${{ inputs.COMPONENT }}
-    - name: check for changes
+
+    - name: Pull any other changes
+      shell: bash
+      run: git pull
+    - name: Check for changes
       shell: bash
       run: git status
-    - name: stage changed files
+    - name: Stage changed files
       shell: bash
       run: git add ./custom_components/${{ inputs.COMPONENT }}/manifest.json
-    - name: commit changed files
+    - name: Commit changed files
       shell: bash
       run: |
         git config --local user.email "action@github.com"
