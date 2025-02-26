@@ -18,6 +18,30 @@ runs:
         python3 -m pip install setuptools wheel
         python3 -m pip install -r ${{ github.workspace }}/requirements_release.txt
 
-    - name: Update release notes
+    - name: Update release notes and changelog
       shell: bash
       run: python3 ${{ github.action_path }}/helpers/generate_releasenotes.py --token ${{ inputs.GITHUB_TOKEN }} --release yes --tag ${{ github.ref }} --repository ${{ github.repository }} --creator ${{ github.actor }}
+
+    - name: check for changes
+      shell: bash
+      run: git status
+    - name: stage changed files
+      shell: bash
+      run: git add ./CHANGELOG.md
+    - name: commit changed files
+      shell: bash
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "doc: Update changelog with release notes" || true
+        git tag -fa ${{ github.event.release.tag_name }} -m "Update changelog with release notes ${{ github.event.release.tag_name }}"
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ inputs.GITHUB_TOKEN }}
+    - name: Push tag change
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ inputs.GITHUB_TOKEN }}
+        force: true
+        tags: true

@@ -1,10 +1,12 @@
 """Create the release notes."""
 
+import os
 import re
 import sys
 from datetime import datetime
 
 from github import Github
+from zoneinfo import ZoneInfo
 
 REPOSITORY = sys.argv[8]
 
@@ -26,6 +28,8 @@ CHANGES_OTHER = "### Other"
 
 CHANGE = "- [{line}]({link}) - @{author}\n"
 NOCHANGE = "_No changes in this release._"
+CHANGELOG_HEADER = "# Changelog"
+
 
 GITHUB = Github(sys.argv[2])
 
@@ -125,21 +129,36 @@ def _get_repo_commits(github, skip=True):
     return changes
 
 
+def _update_changelog(commit_text, version):
+    filename = f"{os.getcwd()}/CHANGELOG.md"
+    with open(filename, "r", encoding="UTF-8") as clog_in:
+        data = clog_in.read().splitlines(True)
+    with open(filename, "w", encoding="UTF-8") as clog_out:
+        clog_out.writelines(CHANGELOG_HEADER + "\n\n")
+        clog_out.writelines(
+            f"## {version} ({datetime.now(ZoneInfo("Europe/London")).strftime("%Y/%m/%d")})\n"
+        )
+        clog_out.writelines(commit_text + "\n\n")
+        clog_out.writelines(data[1:])
+
+
 # Update release notes:
 UPDATERELEASE = str(sys.argv[4])
 REPO = GITHUB.get_repo(REPOSITORY)
 if UPDATERELEASE == "yes":
     VERSION = str(sys.argv[6]).replace("refs/tags/", "")
     RELEASE = REPO.get_release(VERSION)
+    COMMIT_TEXT = _get_repo_commits(GITHUB)
     RELEASE.update_release(
         name=VERSION,
         message=BODY.format(
             version=VERSION,
-            changes=_get_repo_commits(GITHUB),
+            changes=COMMIT_TEXT,
             repository=REPOSITORY,
         ),
         prerelease=True,
     )
+    _update_changelog(COMMIT_TEXT, VERSION)
 else:
     repo_changes = _get_repo_commits(GITHUB, False)  # pylint: disable=invalid-name
     if repo_changes != NOCHANGE:
