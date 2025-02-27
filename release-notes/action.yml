@@ -4,6 +4,11 @@ inputs:
     description: 'GitHub token or PAT token'
     required: true
     default: ${{ github.token }}
+  branch:
+    description: 'Branch to pull against main/master'
+    required: false
+    default: main
+
 runs:
   using: composite
   steps:
@@ -26,7 +31,7 @@ runs:
       shell: bash
       run: |
         remote_repo="https://${GITHUB_ACTOR}:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-        git pull "$remote_repo" main
+        git pull "$remote_repo" ${{ inputs.BRANCH }}
     - name: Check for changes
       shell: bash
       run: git status
