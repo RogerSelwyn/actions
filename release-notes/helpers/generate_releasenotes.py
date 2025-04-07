@@ -107,7 +107,7 @@ def _get_repo_commits(github, skip=True):
             elif msg.startswith("dep:"):
                 repo_changes_dependencies += _add_line("dep:", commit, msg)
             elif msg.startswith("doc:"):
-                repo_changes_documentation += _add_line("doc:", commit, msg)
+                repo_changes_documentation += _add_line("doc:", commit or "", msg or "")
             elif msg.startswith("test:"):
                 repo_changes_test += _add_line("test:", commit, msg)
             elif msg.startswith("rel:"):
