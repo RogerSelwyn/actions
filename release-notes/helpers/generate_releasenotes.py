@@ -95,7 +95,7 @@ def _get_repo_commits(github, skip=True):
     repo = github.get_repo(REPOSITORY)
     if commits := _new_commits(repo, _last_repo_release(github, skip)["tag_sha"]):
         for commit in commits:
-            msg = repo.get_git_commit(commit.sha).message
+            msg = repo.get_git_commit(commit.sha).message or ""
             if msg.startswith("break:"):
                 repo_changes_breaking += _add_line("break:", commit, msg)
             elif msg.startswith("feat:"):
@@ -107,7 +107,7 @@ def _get_repo_commits(github, skip=True):
             elif msg.startswith("dep:"):
                 repo_changes_dependencies += _add_line("dep:", commit, msg)
             elif msg.startswith("doc:"):
-                repo_changes_documentation += _add_line("doc:", commit or "", msg or "")
+                repo_changes_documentation += _add_line("doc:", commit, msg) or ""
             elif msg.startswith("test:"):
                 repo_changes_test += _add_line("test:", commit, msg)
             elif msg.startswith("rel:"):
