@@ -67,9 +67,9 @@ def _process_chunks(change_title, changes):
 
 def _add_line(startswith, commit, msg):
     if "Merge branch " in msg:
-        return
+        return ""
     if "Merge pull request " in msg:
-        return
+        return ""
     if "\n" in msg:
         msg = msg.split("\n")[0]
     try:
