@@ -30,6 +30,11 @@ runs:
       shell: bash
       run: python3 ${{ github.action_path }}/helpers/update_version.py --tag ${{ github.ref }} --component ${{ inputs.COMPONENT }}
 
+    - name: Prettify code
+      uses: creyD/prettier_action@v4.6
+      with:
+        prettier_options: --write **/manifest.json
+
     - name: Check for changes
       shell: bash
       run: git status
