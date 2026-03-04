@@ -40,7 +40,6 @@ runs:
     - name: Commit changed files
       shell: bash
       run: |
-        git pull
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git commit -m "rel: Auto update manifest.json" || true
