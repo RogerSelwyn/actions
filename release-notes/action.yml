@@ -50,9 +50,9 @@ runs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ inputs.GITHUB_TOKEN }}
-    - name: Push tag change
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ inputs.GITHUB_TOKEN }}
-        force: true
-        tags: true
+    # - name: Push tag change
+    #   uses: ad-m/github-push-action@master
+    #   with:
+    #     github_token: ${{ inputs.GITHUB_TOKEN }}
+    #     force: true
+    #     tags: true
