@@ -1,0 +1,30 @@
+name: Update Requirements
+description: Update requirements.txt
+inputs:
+  github_token:
+    description: 'GitHub token or PAT token'
+    required: true
+    default: ${{ github.token }}
+  component:
+    description: 'Integration Component being released'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Update requirements.txt
+      shell: bash
+      run: python3 ${{ github.action_path }}/helpers/update_requirements.py --component ${{ inputs.COMPONENT }}
+    - name: check for changes
+      shell: bash
+      run: git status
+    - name: stage changed files
+      shell: bash
+      run: git add requirements.txt
+    - name: commit changed files
+      shell: bash
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git commit -m "dep: Auto update requirements.txt" || true
+
