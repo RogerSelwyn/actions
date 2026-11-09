@@ -4,13 +4,14 @@ import os
 import re
 import sys
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 from github import Github
-from zoneinfo import ZoneInfo
 
 REPOSITORY = sys.argv[8]
 
-BODY = """[![Downloads for this release](https://img.shields.io/github/downloads/{repository}/{version}/total.svg)](https://github.com/{repository}/releases/{version})
+BODY = """[![Downloads for this release](https://img.shields.io/github/downloads/{repository}/"
+ + "{version}/total.svg)](https://github.com/{repository}/releases/{version})
 
 {changes}
 
@@ -74,7 +75,7 @@ def _add_line(startswith, commit, msg):
         msg = msg.split("\n")[0]
     try:
         author = commit.author.login if commit.author else None
-    except Exception:  # pylint: disable=broad-exception-caught
+    except Exception:  # pylint: disable=broad-exception-caught  # noqa: BLE001
         author = None
     if msg.startswith(startswith):
         msg = msg[len(startswith) :].strip()
@@ -108,6 +109,8 @@ def _get_repo_commits(github, skip=True):
                 repo_changes_dependencies += _add_line("dep:", commit, msg)
             elif msg.startswith("build(deps):"):
                 repo_changes_dependencies += _add_line("build(deps):", commit, msg)
+            elif msg.startswith("chore(deps):"):
+                repo_changes_dependencies += _add_line("chore(deps):", commit, msg)
             elif msg.startswith("doc:"):
                 repo_changes_documentation += _add_line("doc:", commit, msg) or ""
             elif msg.startswith("test:"):
@@ -137,9 +140,8 @@ def _update_changelog(commit_text, version):
         data = clog_in.read().splitlines(True)
     with open(filename, "w", encoding="UTF-8") as clog_out:
         clog_out.writelines(CHANGELOG_HEADER + "\n\n")
-        clog_out.writelines(
-            f"## {version} ({datetime.now(ZoneInfo("Europe/London")).strftime("%Y/%m/%d")})\n"
-        )
+        title = f"## {version} ({datetime.now(ZoneInfo('Europe/London')).strftime('%Y/%m/%d')})\n"
+        clog_out.writelines(title)
         clog_out.writelines(commit_text + "\n\n")
         clog_out.writelines(data[1:])
 
@@ -165,7 +167,7 @@ else:
     repo_changes = _get_repo_commits(GITHUB, False)  # pylint: disable=invalid-name
     if repo_changes != NOCHANGE:
         VERSION = _last_repo_release(GITHUB, False)["tag_name"]
-        VERSION = f"{VERSION[:-1]}{int(VERSION[-1])+1}"
+        VERSION = f"{VERSION[:-1]}{int(VERSION[-1]) + 1}"
         REPO.create_issue(
             title=f"Create release {VERSION}?",
             labels=["New release"],
