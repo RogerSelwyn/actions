@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 """Create the release notes."""
 
 import os
@@ -10,8 +11,7 @@ from github import Github
 
 REPOSITORY = sys.argv[8]
 
-BODY = """[![Downloads for this release](https://img.shields.io/github/downloads/{repository}/"
- + "{version}/total.svg)](https://github.com/{repository}/releases/{version})
+BODY = """[![Downloads for this release](https://img.shields.io/github/downloads/{repository}/{version}/total.svg)](https://github.com/{repository}/releases/{version})
 
 {changes}
 
